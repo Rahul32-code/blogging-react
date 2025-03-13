@@ -1,49 +1,50 @@
 name: React App CI/CD Pipeline
 
-# Workflow ko trigger karne ka condition
 on:
   push:
     branches:
-      - main # Jab main branch pe push hoga, workflow chalega
+      - main  # Runs when pushing to the main branch
   pull_request:
     branches:
-      - main # Jab main branch pe pull request hoga, workflow chalega
+      - main  # Runs on pull requests to main
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest # Ye GitHub ka Ubuntu server pe run hoga
+    runs-on: ubuntu-latest  # Runs on GitHub's Ubuntu server
 
     steps:
-      # Step 1: Code ko checkout karen
+      # Step 1: Checkout the repository code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # Step 2: Node.js setup karen
+      # Step 2: Set up Node.js (Fixed incorrect version)
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: "22.5.1" # React app ke liye Node.js version
+          node-version: "20"  # Latest stable Node.js version
 
-      # Step 3: Dependencies install karen
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Run tests (optional)
+      # Step 4: Run tests (optional, uncomment if needed)
       # - name: Run tests
       #   run: npm test -- --watchAll=false --coverage
 
-      # Step 5: React app build karen
+      # Step 5: Build the React app
       - name: Build the app
         run: npm run build
 
       # Step 6: Install Netlify CLI
-      - name: Install Netlify CLI
-        run: |
-          curl -LO https://github.com/netlify/cli/releases/download/v3.4.0/netlify-cli-linux-x64.zip
-          unzip netlify-cli-linux-x64.zip
-           sudo mv netlify /usr/local/bin/netlify
+      # - name: Install Netlify CLI
+      #   run: npm install -g netlify-cli
 
-      # Step 7: Deploy to Netlify
+      # Step 6: Deploy to Netlify
       - name: Deploy to Netlify
-        run: |
-          netlify deploy --dir=build --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --prod
+        uses: netlify/actions/cli@v2
+        # run: netlify deploy --dir=build --prod
+        with:
+          args: deploy --dir=build --prod  # Deploys to production
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
