@@ -36,7 +36,7 @@ jobs:
         run: npm run build
 
       - name: Check if build directory exists
-        run: ls -la build 
+        run: ls -la dist 
 
       # Step 6: Install Netlify CLI
       - name: Install Netlify CLI
