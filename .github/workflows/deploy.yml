@@ -1,0 +1,49 @@
+name: React App CI/CD Pipeline
+
+# Workflow ko trigger karne ka condition
+on:
+  push:
+    branches:
+      - main # Jab main branch pe push hoga, workflow chalega
+  pull_request:
+    branches:
+      - main # Jab main branch pe pull request hoga, workflow chalega
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # Ye GitHub ka Ubuntu server pe run hoga
+
+    steps:
+      # Step 1: Code ko checkout karen
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Node.js setup karen
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "22.5.1" # React app ke liye Node.js version
+
+      # Step 3: Dependencies install karen
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run tests (optional)
+      # - name: Run tests
+      #   run: npm test -- --watchAll=false --coverage
+
+      # Step 5: React app build karen
+      - name: Build the app
+        run: npm run build
+
+      # Step 6: Install Netlify CLI
+      - name: Install Netlify CLI
+        run: |
+          curl -LO https://github.com/netlify/cli/releases/download/v3.4.0/netlify-cli-linux-x64.zip
+          unzip netlify-cli-linux-x64.zip
+           sudo mv netlify /usr/local/bin/netlify
+
+      # Step 7: Deploy to Netlify
+      - name: Deploy to Netlify
+        run: |
+          netlify deploy --dir=build --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --prod
