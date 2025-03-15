@@ -92,28 +92,36 @@ const Footer = () => {
                   <h5 className="text-2xl">Social Media</h5>
                 </div>
                 <div className="flex flex-col list-none w-full gap-2">
-                  <li className=" text-white p-1">
+                  <li className=" text-white pl-1">
                     <a href="#" className="flex items-center gap-2">
-                      <Facebook />
+                      <div className="bg-blue-600 pt-1 pr-1 pl-1 rounded">
+                        <Facebook size={18}  />
+                      </div>
                       Facebook
                     </a>
                   </li>
                   <li className=" text-white p-1">
                     <a href="#" className="flex items-center gap-2">
-                      <Twitter />
-                      Travel
+                      <div className="bg-blue-600 p-1 rounded">
+                        <Twitter  size={18}/>
+                      </div>
+                      Twitter
                     </a>
                   </li>
                   <li className=" text-white p-1">
                     <a href="#" className="flex items-center gap-2">
-                      <Instagram />
-                      Travel
+                    <div className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1 rounded">
+                        <Instagram size={18}/>
+                      </div>
+                      Instagram
                     </a>
                   </li>
                   <li className=" text-white p-1">
                     <a href="#" className="flex items-center gap-2">
-                      <Youtube />
-                      Travel
+                      <div className="bg-red-600 p-1 rounded">
+                        <Youtube size={18} />
+                      </div>
+                      Youtube
                     </a>
                   </li>
                 </div>
