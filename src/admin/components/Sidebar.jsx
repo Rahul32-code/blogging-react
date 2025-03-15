@@ -31,7 +31,7 @@ const Sidebar = ({
       ],
     },
     {
-      name: "Manage Comments",
+      name: "Comments",
       icon: <MessageCircle size={20} />,
       path: "/admin/managecomment",
     },
@@ -46,10 +46,9 @@ const Sidebar = ({
 
   return (
     <div
-      className={`bg-[#181824] text-white p-6 flex flex-col h-screen overflow-y-auto transition-all duration-300 scrollbar-hide smooth-scroll sticky top-0 z-10`}
-      style={{
-        width: isSideBarCollapsed ? "80px" : "260px",
-      }}
+      className={`bg-[#181824] text-white p-6 flex flex-col h-screen overflow-y-auto transition-all duration-300 scrollbar-hide smooth-scroll sticky top-0 z-10 ${
+        isSideBarCollapsed ? "w-20" : "w-70"
+      }`}
     >
       <h1 className="text-2xl font-bold text-center mb-8">
         <span className="text-green-600">B</span>
@@ -58,20 +57,16 @@ const Sidebar = ({
 
       <ul className="space-y-6">
         {menuItems.map((item, index) => (
-          <li key={index} className="flex flex-col">
+          <li key={index} className="flex flex-col items-start">
             {item.hasDropdown ? (
               <div
-                className="flex align-center cursor-pointer"
+                className="flex align-center cursor-pointer "
                 onClick={() => {
                   setActiveTab(item.name.toLowerCase());
                   handleDropdownToggle(item.name); // Toggle this specific dropdown
                 }}
               >
-                <div
-                  className={`w-1 ${isSideBarCollapsed ? "hidden" : ""} ${
-                    activeTab === item.name.toLowerCase() ? "bg-green-600" : ""
-                  }`}
-                ></div>
+                
 
                 <Link
                   to={item.path}
@@ -155,7 +150,7 @@ const Sidebar = ({
                         }
                         className={`block py-2 px-4 rounded-lg transition duration-100`}
                       >
-                        <span className="text-green-400">
+                        <span className={`text-green-400 ${isSideBarCollapsed ? "hidden" : ""}`}>
                           {dropdownItem.name}
                         </span>
                       </Link>
@@ -171,7 +166,7 @@ const Sidebar = ({
         <li
           className={`cursor-pointer flex gap-2 items-center py-2 px-2 rounded-lg transition-colors duration-300 hover:${
             isSideBarCollapsed ? "text-green-600" : ""
-          } transition-all duration-300`}
+          } transition-all duration-300 items-start`}
           onClick={() => console.log("Logout")}
         >
           <span>
