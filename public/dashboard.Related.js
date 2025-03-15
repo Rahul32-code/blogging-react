@@ -55,8 +55,10 @@ export const gradients = [
   "bg-gradient-to-r from-green-400 via-blue-500 to-indigo-600",
 ];
 
-export const getRandomGradient = () =>
-  gradients[Math.floor(Math.random() * gradients.length)];
+export const getRandomGradient = () => {
+  const index = Math.floor(Math.random() * gradients.length)
+  return gradients[index];
+};
 
 export const users = [
   {
